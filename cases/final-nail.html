@@ -49,8 +49,7 @@
       top: 0;
       height: 80px;
       align-items: center;
-      transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
-      will-change: transform;
+      transition: left 4s cubic-bezier(0.25, 0.1, 0.25, 1);
     }
     .roller-item {
       flex: 0 0 140px;
@@ -224,37 +223,24 @@
 
       isRolling = true;
 
-      const baseCount = 30;
+      const scrollItemsCount = 30;
       const finalItem = getRandomItem();
-      const scrollItems = generateScrollItems(baseCount);
+      const scrollItems = generateScrollItems(scrollItemsCount);
       scrollItems.push(finalItem);
 
       fillRoller(scrollItems);
 
       roller.style.transition = 'none';
-      roller.style.transform = 'translateX(0)';
-      void roller.offsetWidth; // trigger reflow
+      roller.style.left = '0px';
+      void roller.offsetWidth;
 
-      const itemWidth = getRollerItemWidth();
+      const rollerItemWidth = getRollerItemWidth();
       const containerWidth = rollerContainer.offsetWidth;
-      const visibleCount = Math.floor(containerWidth / itemWidth);
+      const centerOffset = (containerWidth / 2) - (rollerItemWidth / 2);
+      const scrollDistance = (rollerItemWidth * (scrollItems.length - 1)) - centerOffset;
 
-      const finalIndex = baseCount; // last item index
-
-      // Pick a random slot index among visible slots to "land" the final item
-      const finalVisibleSlot = Math.floor(Math.random() * visibleCount);
-
-      // Base scroll distance to align the final item with chosen visible slot
-      let baseScrollDistance = itemWidth * finalIndex - (itemWidth * finalVisibleSlot);
-
-      // Random offset from 0 (start of slot) up to full item width (end of slot)
-      const edgyOffset = Math.random() * itemWidth;
-
-      // Add edgy offset to base scroll distance for edgy landing inside slot
-      const scrollDistance = baseScrollDistance + edgyOffset;
-
-      roller.style.transition = 'transform 4s cubic-bezier(0.25, 0.1, 0.25, 1)';
-      roller.style.transform = `translateX(-${scrollDistance}px)`;
+      roller.style.transition = 'left 4s cubic-bezier(0.25, 0.1, 0.25, 1)';
+      roller.style.left = `-${scrollDistance}px`;
 
       roller.addEventListener('transitionend', () => {
         const reward = itemValues[finalItem.name] || 0;
