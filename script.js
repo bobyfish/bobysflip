@@ -43,7 +43,7 @@ const itemValues = {
 function updateBalanceDisplay() {
   const balanceElement = document.getElementById('balance');
   if (balanceElement) {
-    balanceElement.textContent = `Balance: ${balance}`;
+    balanceElement.textContent = Balance: ${balance};
   }
   // Save balance to localStorage
   localStorage.setItem('balance', balance);
@@ -139,7 +139,7 @@ function displayOdds() {
   items.forEach(item => {
     const oddsPercent = ((item.weight / totalWeight) * 100).toFixed(1);
     const p = document.createElement('p');
-    p.textContent = `${item.name}: ${oddsPercent}% chance`;
+    p.textContent = ${item.name}: ${oddsPercent}% chance;
     oddsListDiv.appendChild(p);
   });
 }
@@ -182,7 +182,7 @@ function openCase() {
   const scrollDistance = (rollerItemWidth * (scrollItems.length - 1)) - centerOffset;
 
   roller.style.transition = 'left 4s cubic-bezier(0.25, 0.1, 0.25, 1)';
-  roller.style.left = `-${scrollDistance}px`;
+  roller.style.left = -${scrollDistance}px;
 
   // Remove old listeners and add new one
   roller.replaceWith(roller.cloneNode(true));
@@ -192,7 +192,7 @@ function openCase() {
     const reward = itemValues[finalItem.name] || 0;
     balance += reward;
     updateBalanceDisplay();
-    alert(`You got: ${finalItem.name}! 🎉 You earned ${reward}.`);
+    alert(You got: ${finalItem.name}! 🎉 You earned ${reward}.);
     isRolling = false;
   }, { once: true });
 }
